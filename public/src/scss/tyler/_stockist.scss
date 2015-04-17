@@ -1,0 +1,208 @@
+.section--stockists {
+  height: 600px;
+  border-top: 1px solid #CCC;
+  border-bottom: 1px solid #CCC;
+  /* padding: 70px 0; */
+  position: relative;
+  background: url('/img/stockist-bg-flipped.jpg');
+  background-size: cover;
+  background-position: 70% center;
+}
+
+/* NEW STUFF */
+
+.stockist-sidebar {
+  height: 100%;
+  width: 150px;
+  padding: 0 15px;
+  background-color: $white;
+  text-align: center;
+  text-transform: uppercase;
+
+  position: absolute;
+
+  /* Move these out here? 
+  letter-spacing: 3px
+  */
+}
+
+.stockist-sidebar-heading {
+  margin-top: 65px;
+  display: inline-block;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  font-size: $font-size-h4;
+  letter-spacing: 3px;
+  border-bottom: 1px solid $text-color;
+}
+
+.stockist-location-list {
+  margin: 25px 0;
+  padding: 0;
+  list-style: none;
+  font-size: $font-size-large;
+  letter-spacing: 2px;
+  li {
+    cursor: pointer;
+    margin: 35px 0;
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+}
+
+.stockist-location-stores {
+  @extend .clearfix;
+  opacity: 0;
+  transition: opacity 500ms ease-out;
+  &.current {
+    opacity: 1;
+    transition: opacity 500ms ease-out;
+  }
+}
+
+.stockist-stores {
+  height: 100%;
+  max-width: 600px;
+  padding-top: 50px;
+  margin-left: 150px; /* sidebar width */
+  padding: 150px (30px / 2) 30px 30px; /* Extra padding on the left to make room for the arrow */
+  overflow-y: scroll;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  background-color: transparentize($white, 0.3);
+}
+
+.stockist-address {
+  margin: 0 0 20px;
+  text-transform: uppercase;
+  line-height: $line-height-base - 0.1;
+  font-size: $font-size-base + 1px;
+  letter-spacing: -0.03em;
+  a {
+    color: $text-color;
+    &:hover,
+    &:focus {
+      color: lighten($text-color, 15%);
+    }
+  }
+}
+
+/* END STUFF */
+
+/* OLd Ish
+
+.stockist-countries {
+  list-style: none;
+  display: block;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  background-color: white;
+  background-color: transparentize($white, 0.3);
+  > li {
+    display: inline-block;
+    padding: 15px 40px;
+    letter-spacing: 2px;
+    font-weight: bold;
+    font-size: $font-size-h4 - 1px;
+    text-transform: uppercase;
+  }
+}
+
+@-webkit-keyframes country-indicator {
+  0%, 100% { left: 20%; }
+  20% { left: 20% }
+  50% { left: 39.8%; }
+  80% { left: 39.8%; }
+}
+*/
+
+.stockist-country-indicator {
+  /* Have backup bg image? */
+  position: absolute;
+  height: 32px;
+  width: 15px;
+  top: 0; /* adjust via javascript */
+  left: 150px; /* width of sidebar */
+  transition: top 300ms ease-in-out;
+  &:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0; 
+    height: 0; 
+    border-top: 16px solid transparent;
+    border-bottom: 16px solid transparent;
+    border-left: 15px solid $white;
+  }
+}
+
+/*
+.stockist-address {
+  margin: 0;
+  text-transform: uppercase;
+  line-height: $line-height-base - 0.1;
+  font-size: $font-size-base + 1px;
+  letter-spacing: -0.03em;
+  a {
+    color: $text-color;
+    &:hover,
+    &:focus {
+      color: lighten($text-color, 15%);
+    }
+  }
+}
+
+.stockist-stores {
+  position: relative;
+  padding: 20px 80px;
+  background-color: $white;
+  margin-bottom: 160px;
+}
+
+.stockist-location-stores {
+  display: none;
+  &.current {
+    display: block;
+  }
+}
+
+.stockist-stores {
+  .stockist-country-indicator {
+    top: -15px;
+  }
+  .stockist-address {
+    display: inline-block;
+    margin-right: 40px;
+  }
+}
+*/
+@media (min-width: $screen-xs-min) {
+
+}
+@media (min-width: $screen-sm-min) {
+  .section--stockists {
+    background-position: center center;
+  }
+  .stockist-stores {
+    background-color: inherit;
+  }
+  .stockist-sidebar {
+    width: 180px;
+    margin-left: 30px;
+  }
+  .stockist-stores {
+    padding-top: 150px;
+    margin-left: 180px + 30px + 30px / 2; /* width plus margin size padding on both sides of */
+    overflow-y: hidden; /* Kill scroll on the larger screens */
+  }
+  .stockist-country-indicator {
+    left: 180px;
+  }
+  .stockist-address {
+    width: 250px;
+    float: left;
+  }
+}

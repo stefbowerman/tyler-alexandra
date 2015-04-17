@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tyler Alexandra - Stockists</title>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400italic,400,600' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="css/app.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  </head>
+  <body>
+    <div class="section--stockists" style="margin-top: 50px;">
+      <div class="stockist-sidebar">
+        <div class="stockist-sidebar-heading">Stockists</div>
+        <ul class="stockist-location-list">
+          <li data-location="america">Americas</li>
+          <li data-location="asia">Asia</li>
+          <li data-location="europe">Europe</li>
+          <li data-location="middle east">Middle East</li>
+          <li data-location="russia">Russia</li>
+          <li data-location="online">Online</li>
+        </ul>
+        <div class="stockist-country-indicator" style="top: 145px;"></div>
+      </div>
+      <div class="stockist-stores">
+        <!-- American Store List -->
+        <div class="stockist-location-stores current" data-location="america">
+          <address class="stockist-address">
+            Caroline Herrera<br>
+            954 Madison Avenue<br>
+            New York, New York 10021<br>
+            <a href="">Carolinaherrera.com/en</a>
+          </address>
+          <address class="stockist-address">
+            Caroline Herrera<br>
+            8441 Melrose Place<br>
+            W Hollywood, California 90069<br>
+            <a href="">Carolinaherrera.com/en</a>
+          </address>
+          <address class="stockist-address">
+            Caroline Herrera<br>
+            31 Highland Park Village<br>
+            Dallas, Texas 75205<br>
+            <a href="">Carolinaherrera.com/en</a>
+          </address>
+          <address class="stockist-address">
+            Five Story<br>
+            18 E 69Th Street<br>
+            New York, New York 10021<br>
+            <a href="">Fivestoryny.com</a>
+          </address>
+          <address class="stockist-address">
+            Louis Boston<br>
+            60 Northern Avenue<br>
+            Boston, Mass. 02210<br>
+            <a href="">louisboston.com</a>
+          </address>
+        </div>
+        <!-- Asia Store List -->
+        <div class="stockist-location-stores" data-location="asia">
+          <address class="stockist-address">
+            L'APPARTEMENT<br>
+            4 CHOME-4-3 GINZA<br>
+            CHUO-KU, TOKYO 104-0061 – JAPAN<br>
+            <a href="www.deuxieme-classe.jp/lappartement" target="_blank">deuxieme-classe.jp/lappartement</a>
+          </address>
+        </div>
+        <!-- Europe Store List -->
+        <div class="stockist-location-stores" data-location="europe">
+          <address class="stockist-address">
+            Matches Fashion<br>
+            Multiple Locations, london - United Kingdom<br>
+            <a href="http://www.matchesfashion.com" target="_blank">www.matchesfashion.com</a>
+          </address>
+        </div>
+        <!-- Middle East Store List -->
+        <div class="stockist-location-stores" data-location="middle east">
+          <address class="stockist-address">
+            Boutique N<br>
+            Burh Jassim, Alsoor Street, Kuwait City 72654 – Kuwait
+          </address>
+          <address class="stockist-address">
+            D'Na Doha<br>
+            20 CROISETTE, PARCEL 11, PORTO ARABIA – QATAR<br />
+            <a href="http://www.dnariyadh.com" target="_blank">www.dnariyadh.com</a>
+          </address>
+          <address class="stockist-address">
+            D'NA RIYADH<br>
+            6611 TUKASSISI STREET, AL REHMANIA RIYADH – SAUDI ARABIA<br />
+            <a href="http://www.dnariyadh.com" target="_blank">www.dnariyadh.com</a>
+          </address>
+          <address class="stockist-address">
+            Paparazzi<br>
+            KHAGANI 17, BAKU AZ1000 – AZERBAIJAN
+          </address>
+        </div>
+        <!-- Middle East Store List -->
+        <div class="stockist-location-stores" data-location="russia">
+          <address class="stockist-address">
+            BISOU BY ME<br>
+            PETROVSKY BOULEVARD, BUILDING 21, MOSCOW 127051 – RUSSIA<br />
+            <a href="http://www.bisoubyme.ru/en/" target="_blank">www.bisoubyme.ru/en/</a> 
+          </address>
+          <address class="stockist-address">
+            YOUNG AND BEAUTIFUL<br>
+            8A VERHNELIHOBORSKAYA, MOSCOW – RUSSIA <br />
+            <a href="http://www.youngandbeautiful.ru/en" target="_blank">www.youngandbeautiful.ru/en</a>
+          </address>
+        </div>
+        <!-- Online -->
+        <div class="stockist-location-stores" data-location="online">
+          <address class="stockist-address">
+            Some place on the internet<br>
+            <a href="www.deuxieme-classe.jp/lappartement" target="_blank">google.com</a>
+          </address>
+          <address class="stockist-address">
+            Some other place on the internet<br>
+            <a href="www.deuxieme-classe.jp/lappartement" target="_blank">google.com</a>
+          </address>
+          <address class="stockist-address">
+            Come to this website<br>
+            <a href="www.deuxieme-classe.jp/lappartement" target="_blank">google.com</a>
+          </address>
+          <address class="stockist-address">
+            Buy Buy Buy Plz<br>
+            <a href="www.deuxieme-classe.jp/lappartement" target="_blank">google.com</a>
+          </address>
+          <address class="stockist-address">
+            what do I need to do for you??<br>
+            <a href="www.deuxieme-classe.jp/lappartement" target="_blank">google.com</a>
+          </address>
+        </div>
+      </div>
+
+    </div>
+
+    <script type="text/javascript">
+      var locationLinks = document.querySelectorAll('li[data-location]');
+      var locationIndicator = document.querySelectorAll('.stockist-country-indicator')[0];
+
+      for (var i = locationLinks.length - 1; i >= 0; i--) {
+        var link = locationLinks[i];
+        var stockistLocation = link.getAttribute('data-location');
+        link.addEventListener('click', linkOnClick.bind(link));
+      };
+
+      function linkOnClick(e) {
+        // console.log(e);
+        var linkLocationBoundingRects = this.getBoundingClientRect();
+        var newIndicatorLocation = linkLocationBoundingRects['top'] - linkLocationBoundingRects['height'] - (locationIndicator.clientHeight / 1);
+
+        var stockistLocation = this.getAttribute('data-location');
+        var currentStockistStores = document.querySelectorAll('.stockist-location-stores.current')[0];
+        var newCurrentStockistStore = document.querySelectorAll('.stockist-location-stores[data-location="'+stockistLocation+'"]')[0];
+
+        currentStockistStores.classList.remove('current');
+        locationIndicator.style.top = newIndicatorLocation + "px";
+        setTimeout(function(){
+          currentStockistStores.style.display = "none";
+          newCurrentStockistStore.style.display = "inherit";
+          newCurrentStockistStore.classList.add('current');
+        }, 500);
+      }
+    </script>
+
+  </body>
+</html>

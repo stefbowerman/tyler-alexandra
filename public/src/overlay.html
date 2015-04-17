@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tyler Alexandra - Overlay</title>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400italic,400,600' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="css/app.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  </head>
+  <body>
+    <div style="position: absolute; top: 0; left: 0; height: 100%; width: 100%; background-color: black; z-index:-1;
+      background: -webkit-linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.44)), url(img/paisley.png) repeat;
+    "></div>
+    <div class="container text-center">
+      <h3>Test for Overlays</h3>
+      <div class="text-center"><button id="overlay-launch" onclick="launchOverlay();">Launch Overlay</button></div>
+    </div>
+    <div id="overlay" class="overlay">
+      <div class="overlay-close" title="Close Overlay">&times;</div>
+      <div class="container overlay-content">
+        <div class="popup-content text-center" style="max-width:600px; margin: 0 auto;">
+          <h5>GENERAL INQUIRIES</h5>
+          <p>
+            TYLER ALEXANDRA<br>
+            650 SIXTH AVENUE, SUITE 4J, NEW YORK, NY 10011 – UNITED STATES <br>
+            PHONE: +1 (212) 956-7287 <br>
+            contact@tyleralexandra.com
+          </p>
+
+          <h5>PRESS INQUIRIES - US</h5>
+          <p>
+            WETHERLY FASHION GROUP<br />
+            PHONE: +1 (212) 966-6467<br />
+            lauren@wetherlyfashiongroup.com
+          </p>
+
+          <h5>PRESS INQUIRIES - LONDON/PARIS</h5>
+          <p>
+            CASALE &amp; CO.<br />
+            PHONE: +44 (0) 2077 537 623<br />
+            chandy@casaleandco.com
+          </p>
+
+          <h5>SALES INQUIRIES</h5>
+          <p>sales@tyleralexandra.com</p>
+
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+          cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+          proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+          cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+          proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+          cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+          proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript">
+      var body = document.getElementsByTagName('body')[0];
+      var overlay = document.getElementById('overlay');
+      window.addEventListener('keydown', function(e){
+        if(e.keyCode == 27){ // esc key
+          closeOverlay();
+        }
+      });
+      document.querySelectorAll('.overlay-close')[0].addEventListener('click', function(){closeOverlay();});
+      function launchOverlay() {
+        body.classList.add('overlay-open');
+        overlay.style.display = 'block';
+      }
+      function closeOverlay() {
+        body.classList.remove('overlay-open');
+        setTimeout(function(){
+          // overlay.style.display = "none";
+        }, 500);
+      }
+
+      setTimeout(function(){
+        var over = TylerAlexandra.Overlay;
+        var one = new over('<h2>Hi!</h2>');
+        one.init();
+        one.show();
+      }, 1000);
+    </script>
+  </body>
+</html>

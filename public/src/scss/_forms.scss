@@ -1,0 +1,219 @@
+//
+// Forms
+// --------------------------------------------------
+
+
+// Normalize non-controls
+//
+// Restyle and baseline non-control form elements.
+
+fieldset {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  // Chrome and Firefox set a `min-width: min-content;` on fieldsets,
+  // so we reset that to ensure it behaves more like a standard block element.
+  // See https://github.com/twbs/bootstrap/issues/12359.
+  min-width: 0;
+}
+
+legend {
+  display: block;
+  width: 100%;
+  padding: 0;
+  margin-bottom: $line-height-computed;
+  font-size: ($font-size-base * 1.5);
+  line-height: inherit;
+  color: #000;
+  border: 0;
+  border-bottom: 1px solid #000;
+}
+
+label {
+  display: inline-block;
+  max-width: 100%; // Force IE8 to wrap long content (see https://github.com/twbs/bootstrap/issues/13141)
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+
+// Normalize form controls
+//
+// While most of our form styles require extra classes, some basic normalization
+// is required to ensure optimum display with or without those classes to better
+// address browser inconsistencies.
+
+// Override content-box in Normalize (* isn't specific enough)
+input[type="search"] {
+  box-sizing: border-box;
+}
+
+// Position radios and checkboxes better
+input[type="radio"],
+input[type="checkbox"] {
+  margin: 4px 0 0;
+  margin-top: 1px \9; // IE8-9
+  line-height: normal;
+}
+
+// Set the height of file controls to match text inputs
+input[type="file"] {
+  display: block;
+}
+
+// Make range inputs behave like textual form controls
+input[type="range"] {
+  display: block;
+  width: 100%;
+}
+
+// Make multiple select elements height not fixed
+select[multiple],
+select[size] {
+  height: auto;
+}
+
+// Focus for file, radio, and checkbox
+input[type="file"],
+input[type="radio"],
+input[type="checkbox"] {
+  &:focus {
+    @include tab-focus();
+  }
+}
+
+// Common form controls
+//
+// Shared size and type resets for form controls. Apply `.form-control` to any
+// of the following form controls:
+//
+// select
+// textarea
+// input[type="text"]
+// input[type="password"]
+// input[type="datetime"]
+// input[type="datetime-local"]
+// input[type="date"]
+// input[type="month"]
+// input[type="time"]
+// input[type="week"]
+// input[type="number"]
+// input[type="email"]
+// input[type="url"]
+// input[type="search"]
+// input[type="tel"]
+// input[type="color"]
+
+.form-control {
+  display: block;
+  width: 100%;
+  height: $input-height-base; // Make inputs at least the height of their button counterpart (base line-height + padding + border)
+  padding: $padding-small-vertical $padding-xs-horizontal;
+  font-size: $font-size-base;
+  line-height: $line-height-computed;
+  color: $input-color;
+  background-color: $input-bg;
+  background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
+  border: 1px solid $input-border;
+  border-radius: $input-border-radius;
+  // box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+  transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+
+  // Customize the `:focus` state to imitate native WebKit styles.
+  // @include form-control-focus();
+  &:focus {
+    outline: 0;
+    border-color: $input-border-focus;
+  }
+
+  // Placeholder
+  @include placeholder();
+
+  // Disabled and read-only inputs
+  //
+  // HTML5 says that controls under a fieldset > legend:first-child won't be
+  // disabled if the fieldset is disabled. Due to implementation difficulty, we
+  // don't honor that edge case; we style them as disabled anyway.
+  &[disabled],
+  &[readonly],
+  fieldset[disabled] & {
+    cursor: not-allowed;
+    background-color: $input-bg-disabled;
+    opacity: 1; // iOS fix for unreadable disabled content
+  }
+
+  // [converter] extracted textarea& to textarea.form-control
+}
+
+// Reset height for `textarea`s
+textarea.form-control {
+  height: auto;
+}
+
+
+// Search inputs in iOS
+//
+// This overrides the extra rounded corners on search inputs in iOS so that our
+// `.form-control` class can properly style them. Note that this cannot simply
+// be added to `.form-control` as it's not specific enough. For details, see
+// https://github.com/twbs/bootstrap/issues/11586.
+
+input[type="search"] {
+  -webkit-appearance: none;
+}
+
+
+// Special styles for iOS temporal inputs
+//
+// In Mobile Safari, setting `display: block` on temporal inputs causes the
+// text within the input to become vertically misaligned.
+// As a workaround, we set a pixel line-height that matches the
+// given height of the input. Since this fucks up everything else, we have to
+// appropriately reset it for Internet Explorer and the size variations.
+
+input[type="date"],
+input[type="time"],
+input[type="datetime-local"],
+input[type="month"] {
+  line-height: $input-height-base;
+  // IE8+ misaligns the text within date inputs, so we reset
+  line-height: $line-height-base #{\0};
+}
+
+
+// Apply same disabled cursor tweak as for inputs
+// Some special care is needed because <label>s don't inherit their parent's `cursor`.
+//
+// Note: Neither radios nor checkboxes can be readonly.
+input[type="radio"],
+input[type="checkbox"] {
+  &[disabled],
+  &.disabled,
+  fieldset[disabled] & {
+    cursor: not-allowed;
+  }
+}
+
+
+
+// Form control sizing
+//
+// Build on `.form-control` with modifier classes to decrease or increase the
+// height and font-size of form controls.
+
+// @include input-size('.input-sm', $input-height-small, $padding-small-vertical, $padding-small-horizontal, $font-size-small, $line-height-small, $border-radius-small);
+
+// @include input-size('.input-lg', $input-height-large, $padding-large-vertical, $padding-large-horizontal, $font-size-large, $line-height-large, $border-radius-large);
+
+
+// Help text
+//
+// Apply to any element you wish to create light text for placement immediately
+// below a form control. Use for general help, formatting, or instructional text.
+
+.help-block {
+  display: block; // account for any element using help-block
+  margin-top: 5px;
+  margin-bottom: 10px;
+  color: lighten($text-color, 25%); // lighten the text some for contrast
+}

@@ -1,0 +1,94 @@
+.gallery-block {
+  height: 400px;
+}
+
+$fade-from: $white;
+$fade-to-1: darken($fade-from, 10%);
+$fade-to-2: darken($fade-from, 13.5%);
+
+.gallery-block-bg-type-1 {
+  background: $fade-to-1; /* Old browsers */
+  background: -moz-linear-gradient(top,  $fade-to-1 11%, $fade-from 58%, $fade-from 58%, $fade-to-2 58%, $fade-from 77%, $fade-from 77%, $fade-from 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(11%,$fade-to-1), color-stop(58%,$fade-from), color-stop(58%,$fade-from), color-stop(58%,$fade-to-2), color-stop(77%,$fade-from), color-stop(77%,$fade-from), color-stop(100%,$fade-from)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  $fade-to-1 11%,$fade-from 58%,$fade-from 58%,$fade-to-2 58%,$fade-from 77%,$fade-from 77%,$fade-from 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  $fade-to-1 11%,$fade-from 58%,$fade-from 58%,$fade-to-2 58%,$fade-from 77%,$fade-from 77%,$fade-from 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  $fade-to-1 11%,$fade-from 58%,$fade-from 58%,$fade-to-2 58%,$fade-from 77%,$fade-from 77%,$fade-from 100%); /* IE10+ */
+  background: linear-gradient(to bottom,  $fade-to-1 11%,$fade-from 58%,$fade-from 58%,$fade-to-2 58%,$fade-from 77%,$fade-from 77%,$fade-from 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$fade-to-1', endColorstr='$fade-from',GradientType=0 ); /* IE6-9 */
+}
+
+.gallery-block-bg-type-2 {
+  @include gradient-vertical($white, darken($white, 20.2%));
+}
+
+.gallery-block-bg-type-1 {
+  .gallery-block-feature {
+    margin-top:  400px * (0.58 - 0.13);
+    img {
+      max-width: 100%;
+    }
+  }
+}
+
+.gallery-block-feature {
+  position: relative;
+}
+
+a.gallery-feature-expand {
+  position: absolute;
+  z-index: 100; // Move this into a var
+  right: 10%;
+  top: -40px - 20px;
+  height: 40px;
+  width: 40px;
+  text-align: center;
+  line-height: 36px;
+  border: 1px solid $brand-primary;
+  border-radius: 50%;
+  background-color: transparentize($white, 0.8);
+  font-size: 28px;
+  color: lighten($brand-primary, 10%);
+  font-weight: 100;
+  cursor: pointer;
+  transform: scale(1);
+  transition: all 300ms ease-out, color 50ms linear;
+  /* Testing this out */
+  &.expanded {
+    background-color: $white;
+    transform: scale(100);
+    color: $white;
+    border-color: $white;
+    transition: all 300ms ease-out;
+  }
+}
+
+@media (min-width: $screen-xs-min) {
+  .gallery-block {
+    height: 500px;
+    &-type-1 {
+      .gallery-block-feature {
+        margin-top:  500px * (0.58 - 0.13);
+      }
+    }
+  }
+}
+@media (min-width: $screen-sm-min) {
+  .gallery-block {
+    height: 600px;
+    &-type-1 {
+      .gallery-block-feature {
+        margin-top:  600px * (0.58 - 0.13);
+      }
+    }
+  }
+}
+@media (min-width: $screen-md-min) {
+  .gallery-block {
+    height: 900px;
+    &-type-1 {
+      .gallery-block-feature {
+        margin-top:  900px * (0.58 - 0.11);
+      }
+    }
+  }
+}

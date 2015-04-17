@@ -1,0 +1,111 @@
+.campaign-seasons {
+  padding: 16px 0;
+  text-align: center;
+}
+.campaign-season-options {
+  list-style: none;   
+  margin: 0;   
+  padding: 0;
+  text-transform: uppercase;
+  font-size: $font-size-small;
+  line-height: $font-size-h4 + 2px;
+  color: $gray-dark;
+  letter-spacing: 1px;
+
+  li {
+    display: inline-block;
+    border-bottom: 1px solid transparent;
+    padding: 0 5px;
+    margin: 0 13px;
+    cursor: pointer;
+    transition: border-bottom-color 400ms ease-out;
+    &.current {
+      cursor: auto;
+      border-bottom-color: $gray-dark;
+      transition: border-bottom-color 400ms ease-out;
+    }
+  }
+}
+
+.campaign-views {
+  /* height: 100%; */
+  overflow: hidden;
+}
+
+.campaign-view {
+  height: 100%;
+  border-bottom: 1px solid #DDD;
+}
+
+.campaign-view-items {
+  height: 100%; 
+  @extend .clearfix;
+}
+
+.campaign-view-item {
+  height: 100%;
+  width: 25%; /* width adjusted via js */
+  float: left;
+  background-size: cover;
+  background-position: center 0;
+}
+
+.campaign-slide-nav {
+  position: absolute;
+  @include square(44px);
+  top: 50%;
+  margin-top: -(44px / 2);
+  border: 2px solid $tyler-blue;
+  opacity: 1;
+  background-color: transparentize($white, 0.5);
+  border-radius: $border-radius-small;
+  color: $tyler-blue;
+  line-height: 36px;
+  text-align: center;
+  font-size: 30px;
+  cursor: pointer;
+  transition: opacity 200ms ease-out;
+  &[disabled] {
+    cursor: default;
+    @include opacity(0.1);
+    transition: opacity 200ms ease-out;
+  }
+  &--prev {
+    left: 20px;
+  }
+  &--next {
+    right: 20px;
+  }
+}
+
+/* Touch devices have a different layout */
+.touch {
+  .campaign-views,
+  .campaign-view {
+    @extend .clearfix;
+  } 
+  .campaign-view {
+    height: auto;
+  }
+  .campaign-view-item {
+    width: 50%;
+    background-size: cover;
+  }
+}
+
+@media (min-width: $screen-sm-min) {
+  .campaign-seasons {
+    text-align: left;
+  }
+  .campaign-season-options {
+    font-size: $font-size-h4 - 1px;
+  }
+}
+
+@media (min-width: $screen-md-min) {
+  .touch {
+    .campaign-view-item {
+      width: 25%;
+    }
+  }
+}

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tyler Alexandra</title>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400italic,400,600' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="css/app.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  </head>
+  <body>
+    <div class="container">
+
+      <div class="product-topbar">
+        <ul class="breadcrumbs">
+          <li>Spring Summer 2015</li>
+          <li>Bags</li>
+          <li>Baguette</li>
+        </ul>
+        <h2 class="product-heading">
+          <span class="product-model">01-A</span>
+          <span class="product-title">Edwin Baguette Clutch</span>
+        </h2>
+      </div>
+
+      <div class="product-info">
+        <div class="product-photo-container">
+          <img src="/img/baguette-silver.jpg"/>
+        </div>
+        <div class="product-details-container">
+          <div class="product-description">
+            Offered in a variety of options, with silver, gold, or rose gold hardware.  This bag is structured with a solid outer frame, sliding lock closure, two top handles, two internal pockets, one zippered pouch, and an optional matching crossbody strap.  The interior is lined with Tyler Alexandra's signature "Thayer Blue" Suede. 
+            <br>
+            <em>Item No. TA-1-SS15</em>
+            <br>
+          </div>
+          <div class="product-options">
+            <em>Available Colors / Materials:</em>
+            <div class="product-options-thumbs">
+              <div class="product-option-thumb current">
+                <div class="product-option-thumb-img-wrapper">
+                  <img src="/img/baguette-thumb-silver.jpg" />
+                </div>
+              </div>
+              <div class="product-option-thumb">
+                <div class="product-option-thumb-img-wrapper">
+                  <img src="/img/baguette-thumb-leopard.jpg" />
+                </div>
+              </div>
+              <div class="product-option-thumb">
+                <div class="product-option-thumb-img-wrapper">
+                  <img src="/img/baguette-thumb-pebble.jpg" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    <script type="text/javascript">
+      var thumbs = document.querySelectorAll('.product-option-thumb');
+      var classToggleActive = function(){
+        if(this.classList.contains('current')) return;
+        for (var i = thumbs.length - 1; i >= 0; i--) {
+          var t = thumbs[i];
+          if(t.classList.contains('current')){
+            t.classList.remove('current');
+          }
+        };
+        this.classList.add('current');
+      };
+
+      for (var i = thumbs.length - 1; i >= 0; i--) {
+        var t = thumbs[i];
+        t.addEventListener('click', classToggleActive);
+      }
+    </script>
+  </body>
+</html>

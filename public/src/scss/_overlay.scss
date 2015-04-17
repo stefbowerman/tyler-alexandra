@@ -1,0 +1,90 @@
+/*
+ * TODO - Prevent body jumping to top on mobile when overlay opens
+ *
+ */
+
+$overlay-close-size: 50px;
+
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1050; /* $z-index-overlay */
+  overflow: hidden;
+  -webkit-overflow-scrolling: touch;
+  outline: 0;
+
+  background-color: $white;
+  background-color: transparentize($white, 0.05);
+  opacity: 0;
+
+  /* transition-property: opacity, z-index; */
+  /* transition-duration: 400ms, 0; */
+  /* transition-timing-function: linear, linear; */
+  /* transition-delay: 800ms, 1200ms; */
+}
+
+.overlay-content {
+  opacity: 0;
+  padding-top: 100px; /* Temp thing */
+  padding-right: $overlay-close-size + 15px;
+  padding-left: $overlay-close-size + 15px;
+  /* transform: translateY(-8%); */
+  /* transition: transform 400ms ease-out, opacity 400ms ease-out;  */
+  /* transition-delay: 400ms; */
+}
+
+.overlay-close {
+  position: fixed;
+  @include square($overlay-close-size);
+  color: mix($white, $brand-primary, 85%);
+  background-color: $tyler-blue;
+  top: 20px;
+  right: 0;
+  text-align: center;
+  line-height: $overlay-close-size;
+  font-size: 30px;
+  font-weight: $font-weight-light;
+  cursor: pointer;
+  z-index: 1;
+  /* opacity: 0; */
+
+  backface-visibility: hidden;
+  transform: translateZ(0);
+
+  /* transform: translateX($overlay-close-size); */
+  /* transition-property: transform, opacity; */
+  /* transition-duration: 400ms; */
+  /* transition-timing-function: cubic-bezier(.26,.67,.25,.96), linear; */
+  /* transition-delay: 0; */
+}
+
+/* body.overlay-open */
+.overlay-open {
+  overflow: hidden;
+  /* position: fixed; */
+  .overlay {
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    /* opacity: 1; */
+    /* -webkit-transition: opacity 400ms linear; */
+  }
+  .overlay-content {
+    opacity: 1;
+    /* -webkit-transform: translateY(0); */
+    /* -webkit-transition: transform 400ms ease-out, opacity 400ms linear; */
+    /* -webkit-transition-delay: 300ms; */
+  }
+  .overlay-close {
+    opacity: 1;
+    /* transform: translateX(0); */
+    /* transition-property: transform, opacity; */
+    /* transition-duration: 400ms; */
+    /* transition-timing-function: cubic-bezier(.26,.67,.25,.96), linear; */
+    /* transition-delay: 800ms; */
+  }
+}
