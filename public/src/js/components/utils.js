@@ -1,4 +1,4 @@
-utils = function(){
+var Utils = function(){
   var t = {};
 
   this.isTouch = function() {
@@ -23,4 +23,4 @@ utils = function(){
 
 };
 
-module.exports = utils;
+module.exports = Utils;

@@ -3,32 +3,35 @@
  * Handles display, and cleanup
  * ======================================================================== */
 
-var TweenMax = require('tween-max');
 var TimelineLite = require('timeline-lite');
 
 var DEFAULTS = {
   show: true
 };
 
+/**
+ * Overlay Constructor
+ * 
+ * @constructor
+ * @param {DOM node} element - The overlay element, containing all the proper markup and classnames
+ * @param {bool} show - Boolean flag, whether or not to display the overlay on instantiation
+ */
 var Overlay = function(element, show) {
   
   show = show || true;
-  console.log(show);
   
   var t = this;
 
   this.body = document.body;
   this.el = element;
-  this.closeButton = this.el.querySelectorAll('.overlay-close')[0];
-  this.overlayContentContainer = this.el.querySelectorAll('.overlay-content')[0];
+  this.closeButton = this.el.getElementsByCallName('overlay-close')[0];
+  this.overlayContentContainer = this.el.getElementsByCallName('overlay-content')[0];
 
   this.isShown = !1;
 
   function init(){
 
-    if(show) {
-      t.show();
-    }
+    if(show) t.show();
 
     return t;
 
@@ -40,10 +43,20 @@ var Overlay = function(element, show) {
 
 Overlay.prototype = {
 
+  /**
+   * Toggles the overlay visibility
+   *
+   * @return {self}
+   */
   toggle : function() {
     return this.isShown ? this.hide() : this.show();
   },
 
+  /**
+   * Shows the overlay and adds event listeners
+   *
+   * @return {self}
+   */
   show : function() {
 
     if (this.isShown) return;
@@ -91,8 +104,15 @@ Overlay.prototype = {
     }, "-=0.4");
 
     this.el.style.display = "block";
+
+    return this;
   },
 
+  /**
+   * Hides the overlay and removes event listeners
+   *
+   * @return {self}
+   */
   hide : function() {
     if (!this.isShown) return;
 
@@ -131,11 +151,18 @@ Overlay.prototype = {
       ease : Power3.easeIn
     }, "-=0.2");
 
+    return this;
+
   },
 
+  /**
+   * Handles click events on the overlay
+   *
+   * @param {MouseEvent} e
+   */
   handleClick : function(e) {
     var target = e.target;
-    if(target.classList.contains('overlay-close')) { // Handle click on the close button
+    if(target == this.closeButton) { // Handle click on the close button
       this.hide();
     }
   }

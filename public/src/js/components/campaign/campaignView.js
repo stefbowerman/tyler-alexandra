@@ -1,7 +1,20 @@
 var TweenMax = require('tween-max');
 var CampaignSlice = require('./campaignSlice.js');
 
-// Requires Modernizr (csstransforms)
+// Requires Modernizr (Modernizr.csstransforms)
+
+/**
+ * View for a single campaign.  
+ * Contains methods for adjusting slice widths and navigating the slideshow
+ *
+ * @constructor
+ * @param {DOM node} el - The container element.  Has class 'campaign-view' and a data attribute 'season'
+
+    <div class="campaign-view" data-season="FW15SS15">
+      <div class="campaign-view-items">
+        <div class="campaign-view-item" style="background-image:url(...);"></div>
+
+ */
 var CampaignView = function(el) {
   var t = this;
 
@@ -29,7 +42,7 @@ var CampaignView = function(el) {
     return transformsSupported ? { x : left } : { 'margin-left' : left }
   }
 
-  var setUpSliderNavigation = function(needsToDisplay) {
+  var setUpSliderNavigation = function() {
     t.slider.buttonPrev.innerHTML = "⇽";
     t.slider.buttonPrev.className = "campaign-slide-nav campaign-slide-nav--prev";
     t.slider.buttonPrev.setAttribute('title', 'Previous Slide');
@@ -42,7 +55,7 @@ var CampaignView = function(el) {
     t.slider.buttonNext.addEventListener('mouseenter', t.resetSlices.bind(t));
     t.slider.buttonNext.addEventListener('click', t.next.bind(t));
     
-    if(needsToDisplay){
+    if(t.slices.length > numSlicesToDisplay){ // If there are more slices than displayed on the screen, add the nav to the UI
       t.el.appendChild(t.slider.buttonPrev);
       t.el.appendChild(t.slider.buttonNext);
       t.doSliderNavDisabledUpdate() // Make sure the nav buttons have the correct disabled attributes
@@ -52,13 +65,24 @@ var CampaignView = function(el) {
 
   }
   
+  /**
+   * Go to the next slide in the slideshow
+   *
+   * Method returns if there are no more slices further offscreen (currentSlice will never equal numSlicesToDisplay)
+   * i.e. If we're on the 2nd of 5 slices where 4 are visible at a time, 1 == (5 - 4) ~ can't go any further
+   */
   this.next = function() {
-    if(currentSlice == this.slices.length - numSlicesToDisplay || isTransitioning) return; // If we're on the 2nd of 5 slices where 4 are visible at a time, 1 == (5 - 4) ~ can't go any further
+    if(currentSlice == this.slices.length - numSlicesToDisplay || isTransitioning) return;
     currentSlice++;
     this.adjustOffScreenPosition();
     this.doSliderNavDisabledUpdate();
   }
 
+  /**
+   * Go to the previous slide in the slideshow
+   *
+   * Method returns if we have hit the beginning of the slide show
+   */
   this.prev = function() {
     if(currentSlice == 0 || isTransitioning) return;
     currentSlice--;
@@ -66,7 +90,10 @@ var CampaignView = function(el) {
     this.doSliderNavDisabledUpdate();
   }
 
-  // Updates the slider navigation with disabled="disabled" if necessary, removes disabled="disabled" if not needed
+
+  /**
+   * Add / remove 'disabled' attributes on the slider UI if necessary
+   */
   this.doSliderNavDisabledUpdate = function() {
     if(currentSlice == 0 && !this.slider.buttonPrev.getAttribute('disabled')) {
       this.slider.buttonPrev.setAttribute('disabled', 'disabled');
@@ -80,10 +107,16 @@ var CampaignView = function(el) {
     }
   }
 
+  /**
+   * Window resize call back
+   */
   this.sliderOnResize = function() {
     this.adjustOffScreenPosition();
   }
 
+  /**
+   * Ensure the first visible slide is always pinned to the left of the screen
+   */
   this.adjustOffScreenPosition = function() {
     isTransitioning = true;
     transitionProps = getOffScreenPositionProps();
@@ -94,6 +127,10 @@ var CampaignView = function(el) {
     TweenMax.to(this.wrapperEl, 0.5, transitionProps);
   }
 
+  /**
+   * Returns the array of CampaignSlices that are currently visible on screen
+   * @returns {Array}
+   */
   this.getVisibleSlices = function() {
     var visibles = [];
     for (var i = currentSlice + numSlicesToDisplay - 1; i >= currentSlice; i--) {
@@ -104,14 +141,26 @@ var CampaignView = function(el) {
 
   // End SliderStuff
 
+  /**
+   * Returns the width of a 'hovered over' slice.  Our magic value (sliceOverWidthPercent) multiplied by screen width
+   * @returns {Number} pixels
+   */
   this.getSliceOverWidth = function(){
     return sliceOverWidthPercent * window.innerWidth;
   }
 
+  /**
+   * Returns the width of a non-hovered slice while another slice is hovered over
+   * @returns {Number} pixels
+   */
   this.getSliceOverMinusWidth = function(){
     return (sliceOverWidthPercentLeft * window.innerWidth) / (numSlicesToDisplay - 1);
   }
 
+  /**
+   * Callback for when a slice is hovered over.  Expands the target slice and minimizes the other visible slices
+   * @param {MouseEvent} e
+   */
   this.sliceOver = function(e) {
     var target = e.target;
     // this.slices.forEach(function(i){
@@ -127,6 +176,9 @@ var CampaignView = function(el) {
     }, this); // bind this to CampaignView
   }
 
+  /**
+   * Resets all slices back to their original state.
+   */
   this.resetSlices = function(){
     this.slices.forEach(function(slice){
       slice.resetSlice();
@@ -134,16 +186,32 @@ var CampaignView = function(el) {
     }.bind(this));
   }
 
+  /**
+   * Focuses the CampaignView to allow keyboard navigation of the slideshow
+   * Note - Doesn't work yet
+   */
   this.focus = function() {
     this.el.setAttribute('tabindex', 1);
   }
 
+  /**
+   * Hides the CampaignView
+   * @returns {self}
+   */
   this.hide = function() {
     this.el.style.display = "none";
     this.el.removeAttribute('tabindex');
+    return this;
   }
 
-  this.resize = function(e){
+  /**
+   * Callback for when the window is resized.  
+   *
+   * - Resizes the view to be the full screen height
+   * - Resizes the slice container to match the length of all the slices
+   *
+   */
+  this.resize = function(){
     TweenMax.to(this.el, 0.01, {
       height: window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
     });
@@ -155,10 +223,20 @@ var CampaignView = function(el) {
     this.sliderOnResize(); // Maybe Remove
   }
 
+  /**
+   * Callback for when the view is not hovered over anymore and we can return it to it's initial state
+   *
+   * @param {MouseEvent} e
+   */
   this.mouseleave = function(e){
     this.resetSlices();
   }
 
+  /**
+   * Handle keydown events while the slideshow has focus, maybe move this to the parent CampaignViewer?
+   *
+   * @param {KeyboardEvent} e
+   */
   this.keydown = function(e) {
     switch(e.keyCode){
       case 37: // left
@@ -172,9 +250,14 @@ var CampaignView = function(el) {
     }
   }
 
+  /**
+   * Initialize the CampaignView by creating CampaignSlices, attaching event handlers and creating slideshow navigation
+   *
+   * @returns {self}
+   */
   this.init = function() {
 
-    var sliceContainers = this.el.querySelectorAll('.campaign-view-item');
+    var sliceContainers = this.el.getElementsByClassName('campaign-view-item');
 
     for (var a = 0; a < sliceContainers.length; a++) {
       var sliceEl = sliceContainers[a];
@@ -183,7 +266,7 @@ var CampaignView = function(el) {
       t.slices.push(slice);
     }
 
-    setUpSliderNavigation( t.slices.length > numSlicesToDisplay ); // Set up the nav, only display it if necessary
+    setUpSliderNavigation();
 
     window.addEventListener('resize', t.resize.bind(t));
     t.el.addEventListener('mouseleave', t.mouseleave.bind(t));

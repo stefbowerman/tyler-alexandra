@@ -1,35 +1,62 @@
 var CampaignView = require('./campaignView.js');
 var CampaignViewTouch = require('./campaignViewTouch.js');
 
-var TweenMax = require('tween-max');
 var TimelineLite = require('timeline-lite');
 
 // requires Modernizr.touch for touch testing
-var CampaignViewer = function(){
+
+/**
+ * View for multiple campaigns.
+ *  
+ * Parent to CampaignViews which are parents to CampaignViewSlices
+ *
+ * @constructor
+ * @param {DOM node} el - The container element.  Has class 'campaign-views'
+ */
+var CampaignViewer = function(el){
   var t = this;
 
-  this.el = document.querySelectorAll('.campaign-views')[0];
-  this.seasonOptions = document.querySelectorAll('.campaign-season-options')[0];
+  this.el = el;
+  this.seasonOptions = document.getElementsByClassName('campaign-season-options')[0];
   this.campaigns = [];
   this.currentCampaign; // Initialize this to the first displayed campaign
 
+  /**
+   * Handler for clicking on the different campaign seasons
+   * - Changes the selected season option, swaps to the correct campaign view
+   * 
+   * @param {MouseEvent} e
+   * @return {self}
+   */
   this.onSeasonOptionClick = function(e) {
     var target = e.target;
     if(target.classList.contains('campaign-season-option')) {
-      if(target.classList.contains('current')) {
+      var currentOpt = this.seasonOptions.getElementsByClassName('current')[0];
+      if(target == currentOpt) {
         return;
       }
       else {
-        this.seasonOptions.querySelectorAll('.current')[0].classList.remove('current');
+        if(currentOpt) currentOpt.classList.remove('current');
         var midCallback = function(){
           target.classList.add('current');
         };
         this.switchToCampaign( target.getAttribute('data-season'), midCallback );
       }
     }
+    return this;
   }
 
+  /**
+   * Handles transitioning to a different campaign
+   * 
+   * @param {String} key - the string specifying which campaing we want (acts as an ID)
+   * @param {Function} midCallback - Function to call halfway through the campaign swap transition
+   * @param {Function} endCallback - Function to call at the end of the campaign swap transition
+   * @return {self}
+   */
   this.switchToCampaign = function(key, midCallback, endCallback) {
+    if (this.currentCampaign == key) return;
+
     var curr = this.getCampaignByKey(this.currentCampaign);
     var next = this.getCampaignByKey(key);
 
@@ -56,6 +83,12 @@ var CampaignViewer = function(){
 
   }
 
+  /**
+   * Returns a CampaignView or CampaignViewTouch based on a passed in key
+   * 
+   * @param {String} key - the string specifying which campaing we want (acts as an ID)
+   * @return {CampaignView(Touch)}
+   */
   this.getCampaignByKey = function(key) {
     var foundCampaign;
     this.campaigns.forEach(function(c){
@@ -64,9 +97,14 @@ var CampaignViewer = function(){
     return foundCampaign;
   }
 
+  /**
+   * Initialize the CampaignViewer by creating CampaignViews, attaching event handlers and only showing the first CampaignView
+   *
+   * @returns {self}
+   */
   this.init = function() {
 
-    var campaignViews = document.querySelectorAll('.campaign-view');
+    var campaignViews = document.getElementsByClassName('campaign-view');
 
     [].forEach.call(campaignViews, function(campaign, i){
       // Create the right type of campaign

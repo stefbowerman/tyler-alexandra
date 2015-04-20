@@ -18,9 +18,9 @@ TylerAlexandra = window.TylerAlexandra || {};
   if(document.getElementById('map-canvas')){
     TylerAlexandra.MapSection = new TylerMap('TylerAlexandra.MapSection').init();
   }
-  if(document.querySelectorAll('.campaign-views').length){
+  if(document.getElementsByClassName('campaign-views').length){
 
-    TylerAlexandra.CampaignViewer = new CampaignViewer().init();
+    TylerAlexandra.CampaignViewer = new CampaignViewer(document.getElementsByClassName('campaign-views')[0]).init();
   }
 
   // Handle Overlay Launching

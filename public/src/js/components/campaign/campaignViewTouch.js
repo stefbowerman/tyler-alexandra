@@ -1,5 +1,17 @@
 var CampaignSliceTouch = require('./campaignSliceTouch.js');
 
+/**
+ * View for a single campaign on a touch screen device.  
+ * Contains methods for adjusting slice sizes and displaying / showing the view
+ *
+ * @constructor
+ * @param {DOM node} el - The container element.  Has class 'campaign-view' and a data attribute 'season'
+
+    <div class="campaign-view" data-season="FW15SS15">
+      <div class="campaign-view-items">
+        <div class="campaign-view-item" style="background-image:url(...);"></div>
+
+ */
 var CampaignViewTouch = function(el) {
 
   var t = this;
@@ -16,17 +28,35 @@ var CampaignViewTouch = function(el) {
       slice.setHeight(h)
     });
 
+    return this;
+
   };
 
+  /**
+   * Focuses the CampaignView to allow keyboard navigation of the slideshow
+   * Note - Doesn't work yet
+   * @returns {self}
+   */
   this.focus = function() {
     this.el.setAttribute('tabindex', 1);
+    return this;
   }
 
+  /**
+   * Hides the CampaignViewTouch
+   * @returns {self}
+   */
   this.hide = function() {
     this.el.style.display = "none";
     this.el.removeAttribute('tabindex');
+    return this;
   }
 
+  /**
+   * Initialize the CampaignViewTouch by creating CampaignSliceTouch-es, attaching event handlers
+   *
+   * @returns {self}
+   */
   this.init = function() {
     var sliceContainers = document.querySelectorAll('.campaign-view-item');
     
@@ -38,6 +68,8 @@ var CampaignViewTouch = function(el) {
     window.addEventListener('resize', t.onResize.bind(t));
 
     this.onResize(); // trigger resize
+
+    return this;
 
   };
 }
