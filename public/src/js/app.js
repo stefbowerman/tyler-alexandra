@@ -3,7 +3,11 @@ TylerAlexandra = window.TylerAlexandra || {};
 // Exposes TweenLite, TweenMax, TweenPlugin, TimelineLite, & TimelineMax
 //require('./modules/gsap');
 
+$ = require('jquery');
+
 (function(Modernizr){
+
+  var $ = require('jquery');
 
   // Required Components
   var Utils = require('./components/utils.js');
@@ -19,9 +23,12 @@ TylerAlexandra = window.TylerAlexandra || {};
     TylerAlexandra.MapSection = new TylerMap('TylerAlexandra.MapSection').init();
   }
   if(document.getElementsByClassName('campaign-views').length){
-
     TylerAlexandra.CampaignViewer = new CampaignViewer(document.getElementsByClassName('campaign-views')[0]).init();
   }
+
+  var promoView = require('./components/promo/promoView.js');
+  window.pp = new promoView($('#promo-press'), $('#promo-press-slideshow'));
+  // window.ps = new promoView($('#promo-spotted'), $('#promo-spotted-slideshow'));
 
   // Handle Overlay Launching
   document.addEventListener('click', function(e){

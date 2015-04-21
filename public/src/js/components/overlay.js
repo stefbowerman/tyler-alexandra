@@ -3,6 +3,7 @@
  * Handles display, and cleanup
  * ======================================================================== */
 
+var $ = require('jquery');
 var TimelineLite = require('timeline-lite');
 
 var DEFAULTS = {
@@ -23,14 +24,15 @@ var Overlay = function(element, show) {
   var t = this;
 
   this.body = document.body;
+  this.$body = $(document.body);
   this.el = element;
-  this.closeButton = this.el.getElementsByCallName('overlay-close')[0];
-  this.overlayContentContainer = this.el.getElementsByCallName('overlay-content')[0];
+  this.$el = $(element);
+  this.closeButton = this.el.getElementsByClassName('overlay-close')[0];
+  this.overlayContentContainer = this.el.getElementsByClassName('overlay-content')[0];
 
   this.isShown = !1;
 
   function init(){
-
     if(show) t.show();
 
     return t;
@@ -58,19 +60,31 @@ Overlay.prototype = {
    * @return {self}
    */
   show : function() {
+    var t = this;
+    var e = $.Event('show.overlay', { target: t.$el });
+
+    this.$el.trigger(e);
 
     if (this.isShown) return;
 
     this.isShown = true;
 
-    this.body.classList.add('overlay-open');
+    this.$body.addClass('overlay-open');
 
     var t = this;
+
+    this.escape();
 
     this.el.addEventListener('click', t.handleClick.bind(t));
 
     // Timeline for show animations
-    var tL = new TimelineLite();
+    var tL = new TimelineLite({
+      onComplete: function(){
+        this.enforceFocus();
+        console.log('shown overlay');
+        this.$el.trigger('shown.overlay');
+      }.bind(this) // this overlay
+    });
 
     // Hide the close button offscreen
     tL.set(this.closeButton, {
@@ -103,7 +117,7 @@ Overlay.prototype = {
       ease : Power3.easeOut
     }, "-=0.4");
 
-    this.el.style.display = "block";
+    this.$el.show();
 
     return this;
   },
@@ -114,20 +128,29 @@ Overlay.prototype = {
    * @return {self}
    */
   hide : function() {
+
+    var e = $.Event('hide.overlay');
+
+    this.$el.trigger(e);
+
     if (!this.isShown) return;
 
     this.isShown = false;
 
-    this.body.classList.remove('overlay-open');
+    this.$body.removeClass('overlay-open');
 
     var t = this;
+
+    this.escape();
 
     this.closeButton.removeEventListener('click', t.hide.bind(t));
     
     // Show timeline
     var tL = new TimelineLite({
       onComplete: function(){
-        this.el.style.display = 'none';
+        console.log('hidden');
+        this.$el.hide();
+        this.$el.trigger('hidden.overlay');
       }.bind(this) // this overlay
     });
 
@@ -165,7 +188,30 @@ Overlay.prototype = {
     if(target == this.closeButton) { // Handle click on the close button
       this.hide();
     }
+  },
+
+  enforceFocus : function() {
+    // $(document)
+    //   .off('focusin.bs.modal') // guard against infinite focus loop
+    //   .on('focusin.bs.modal', $.proxy(function (e) {
+    //     if (this.$element[0] !== e.target && !this.$element.has(e.target).length) {
+    //       this.$element.trigger('focus')
+    //     }
+    //   }, this));
+  },
+
+  escape : function() {
+    if (this.isShown) {
+      this.$el.on('keydown.dismiss.overlay', $.proxy(function (e) {
+        e.which == 27 && this.hide() // esc key
+      }, this))
+    }
+    else {
+      this.$el.off('keydown.dismiss.overlay');
+    }    
   }
+
+
 
 };
 

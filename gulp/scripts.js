@@ -5,6 +5,7 @@ var refresh = require('gulp-livereload');
 var rename = require('gulp-rename');
 var transform = require('vinyl-transform');
 var multipipe = require('multipipe');
+var uglify = require('gulp-uglify');
 
 function bundler(file) {
   var b = browserify(file, {
@@ -25,8 +26,8 @@ module.exports = function() {
     gulp.src('public/src/js/app.js'),
     transform(bundler),
     rename('app.js'),
+    // uglify(),
     gulp.dest('public/dist/js')
-
   ];
 
   // Copy libs over as they are

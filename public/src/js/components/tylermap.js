@@ -72,16 +72,19 @@ var TylerMap = function(namespaceMapLocation){ // add 'loadScriptOnDomReady' to 
         '&signed_in=false&callback=' + this.namespaceMapLocation + '.onScriptLoaded';
     document.body.appendChild(script);
   };
+  this.apiIsReady = function(){
+    return window.google && window.google.maps;
+  };
   this.onScriptLoaded = function(){
     this.initMap();
     if(showMapOnScriptLoaded) this.showMap();
   };
   this.addDomListeners = function(){ // Listeners on non map dom elements
     this.viewMapEl.addEventListener('click', function(){
-      if(window.google && window.google.maps){ // API Ready
+      if( t.apiIsReady() ){
         t.showMap();
       }
-      else { // Need to load map API
+      else {
         showMapOnScriptLoaded = true;
         t.loadMapScript();
       }
