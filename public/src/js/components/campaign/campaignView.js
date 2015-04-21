@@ -1,4 +1,4 @@
-var TweenMax = require('tween-max');
+var TweenMax      = require('tween-max');
 var CampaignSlice = require('./campaignSlice.js');
 
 // Requires Modernizr (Modernizr.csstransforms)
@@ -218,6 +218,7 @@ var CampaignView = function(el) {
     TweenMax.to(this.wrapperEl, 0.01, {
       width: ((window.innerWidth / numSlicesToDisplay) * this.slices.length) + this.slices.length // give it a little extra width for rounding errors
     });
+
     // Reset updates the width of the slices
     this.resetSlices();
     this.sliderOnResize(); // Maybe Remove

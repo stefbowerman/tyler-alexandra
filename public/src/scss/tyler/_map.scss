@@ -85,12 +85,13 @@
 .map-section-wrapper {
   &.show-map {
     .map-canvas {
-      // z-index: 1;
-      transition: opacity 400ms linear;
-      transition-delay: 200ms;
+      z-index: 2;
+      transition-property: opacity, z-index;
+      transition-duration: 400ms, 0;
+      transition-delay: 200ms, 600ms;
       &--cover {
         opacity: 0;
-        // z-index: 0;
+        z-index: 0;
         transition: opacity 400ms linear;
         transition-delay: 200ms;
       }
@@ -134,6 +135,13 @@
   letter-spacing: 1px;
   background-color: $white;
   box-shadow: 0 0 10px 0 darken($brand-primary, 10%);
+  a {
+    &,
+    &:hover,
+    &:active {
+      color: $gray-dark;
+    }
+  }
   .btn {
     letter-spacing: 1px;
     color: $gray-dark;

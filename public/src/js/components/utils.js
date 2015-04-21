@@ -23,4 +23,4 @@ var Utils = function(){
 
 };
 
-module.exports = Utils;
+module.exports = new Utils();
