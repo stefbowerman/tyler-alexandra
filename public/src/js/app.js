@@ -1,29 +1,27 @@
-TylerAlexandra = window.TylerAlexandra || {};
-
-// Exposes TweenLite, TweenMax, TweenPlugin, TimelineLite, & TimelineMax
-//require('./modules/gsap');
-
-$ = require('jquery');
+var TweenMax = require('tween-max');
 
 (function(Modernizr){
-
+  
   var $ = require('jquery');
 
-  // Required Components
-  var Utils = require('./components/utils.js');
-  var CampaignViewer = require('./components/campaign/campaignViewer.js');
-  var TylerMap = require('./components/tylermap.js');
+  // Our Namespace
+  TylerAlexandra = window.TylerAlexandra || {};
 
-  // Add Components to tyler namespace
-  TylerAlexandra.Utils = new Utils();
+  // Add Components to our namespace
   TylerAlexandra.Overlay = require('./components/overlay.js');
 
+  // Required Component Constructors
+  var CampaignViewer = require('./components/campaign/campaignViewer.js');
+  var MapView        = require('./components/map/mapView.js');
+
   // Initialize components as needed
-  if(document.getElementById('map-canvas')){
-    TylerAlexandra.MapSection = new TylerMap('TylerAlexandra.MapSection').init();
+  
+  if( $('#map-canvas').length ){
+    TylerAlexandra.MapView = new MapView('TylerAlexandra.MapView').init();
   }
-  if(document.getElementsByClassName('campaign-views').length){
-    TylerAlexandra.CampaignViewer = new CampaignViewer(document.getElementsByClassName('campaign-views')[0]).init();
+
+  if( $('.campaign-views').length ){
+    TylerAlexandra.CampaignViewer = new CampaignViewer( $('.campaign-views').first() ).init();
   }
 
   var promoView = require('./components/promo/promoView.js');
@@ -31,13 +29,11 @@ $ = require('jquery');
   // window.ps = new promoView($('#promo-spotted'), $('#promo-spotted-slideshow'));
 
   // Handle Overlay Launching
-  document.addEventListener('click', function(e){
-    if(e.target.getAttribute('data-overlay')){
-      var target = document.getElementById( e.target.getAttribute('data-overlay') ); // Make this more extensible
-      var overlay = new TylerAlexandra.Overlay( target );
-      e.preventDefault();
-      return false;
-    }
+  $(document).on('click', '[data-overlay]', function(e){
+    var target = document.getElementById( $(this).attr('data-overlay') ); // Make this more extensible
+    var overlay = new TylerAlexandra.Overlay( target );
+    e.preventDefault();
+    return false;
   });
 
 })(Modernizr);

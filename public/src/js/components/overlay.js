@@ -6,10 +6,6 @@
 var $ = require('jquery');
 var TimelineLite = require('timeline-lite');
 
-var DEFAULTS = {
-  show: true
-};
-
 /**
  * Overlay Constructor
  * 
@@ -23,12 +19,12 @@ var Overlay = function(element, show) {
   
   var t = this;
 
-  this.body = document.body;
   this.$body = $(document.body);
   this.el = element;
   this.$el = $(element);
-  this.closeButton = this.el.getElementsByClassName('overlay-close')[0];
-  this.overlayContentContainer = this.el.getElementsByClassName('overlay-content')[0];
+  this.closeButton = this.$el.find('.overlay-close');
+  this.$closeButton = $(this.closeButton);
+  this.overlayContentContainer = this.$el.find('.overlay-content');
 
   this.isShown = !1;
 
@@ -60,6 +56,7 @@ Overlay.prototype = {
    * @return {self}
    */
   show : function() {
+    
     var t = this;
     var e = $.Event('show.overlay', { target: t.$el });
 
@@ -71,18 +68,16 @@ Overlay.prototype = {
 
     this.$body.addClass('overlay-open');
 
-    var t = this;
-
     this.escape();
 
-    this.el.addEventListener('click', t.handleClick.bind(t));
+    this.$closeButton.on('click', t.hide.bind(t));
+
+    this.enforceFocus();
 
     // Timeline for show animations
     var tL = new TimelineLite({
       onComplete: function(){
-        this.enforceFocus();
-        console.log('shown overlay');
-        this.$el.trigger('shown.overlay');
+        this.$el.trigger('focus').trigger('shown.overlay')
       }.bind(this) // this overlay
     });
 
@@ -129,6 +124,7 @@ Overlay.prototype = {
    */
   hide : function() {
 
+    var t = this;
     var e = $.Event('hide.overlay');
 
     this.$el.trigger(e);
@@ -139,19 +135,18 @@ Overlay.prototype = {
 
     this.$body.removeClass('overlay-open');
 
-    var t = this;
-
     this.escape();
 
-    this.closeButton.removeEventListener('click', t.hide.bind(t));
+    $(document).off('focusin.bs.modal')
+
+    this.$closeButton.off('click');
     
     // Show timeline
     var tL = new TimelineLite({
       onComplete: function(){
-        console.log('hidden');
         this.$el.hide();
         this.$el.trigger('hidden.overlay');
-      }.bind(this) // this overlay
+      }.bind(this)
     });
 
     // Animate the close button off screen
@@ -179,27 +174,23 @@ Overlay.prototype = {
   },
 
   /**
-   * Handles click events on the overlay
-   *
-   * @param {MouseEvent} e
+   * Triggers focus on the overlay allowing us to capture keydown events
    */
-  handleClick : function(e) {
-    var target = e.target;
-    if(target == this.closeButton) { // Handle click on the close button
-      this.hide();
-    }
-  },
-
   enforceFocus : function() {
-    // $(document)
-    //   .off('focusin.bs.modal') // guard against infinite focus loop
-    //   .on('focusin.bs.modal', $.proxy(function (e) {
-    //     if (this.$element[0] !== e.target && !this.$element.has(e.target).length) {
-    //       this.$element.trigger('focus')
-    //     }
-    //   }, this));
+
+    $(document)
+      .off('focusin.overlay') // guard against infinite focus loop
+      .on('focusin.overlay', $.proxy(function (e) {
+        if (this.$el[0] !== e.target && !this.$el.has(e.target).length) {
+          this.$el.trigger('focus')
+        }
+      }, this));
   },
 
+  /**
+   * Attaches / Removes keydown handler on the overlay that checks if the esc key has been pressed
+   * - Hides the overlay if it is displayed and 'esc' has been pressed
+   */
   escape : function() {
     if (this.isShown) {
       this.$el.on('keydown.dismiss.overlay', $.proxy(function (e) {
@@ -210,8 +201,6 @@ Overlay.prototype = {
       this.$el.off('keydown.dismiss.overlay');
     }    
   }
-
-
 
 };
 

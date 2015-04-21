@@ -1682,12 +1682,16 @@ a.gallery-feature-expand {
   transition-delay: 400ms; }
 
 .map-section-wrapper.show-map .map-canvas {
-  -webkit-transition: opacity 400ms linear;
-  transition: opacity 400ms linear;
-  -webkit-transition-delay: 200ms;
-  transition-delay: 200ms; }
+  z-index: 2;
+  -webkit-transition-property: opacity, z-index;
+  transition-property: opacity, z-index;
+  -webkit-transition-duration: 400ms, 0;
+  transition-duration: 400ms, 0;
+  -webkit-transition-delay: 200ms, 600ms;
+  transition-delay: 200ms, 600ms; }
   .map-section-wrapper.show-map .map-canvas--cover {
     opacity: 0;
+    z-index: 0;
     -webkit-transition: opacity 400ms linear;
     transition: opacity 400ms linear;
     -webkit-transition-delay: 200ms;
@@ -1729,6 +1733,8 @@ a.gallery-feature-expand {
   background-color: #FFF;
   -webkit-box-shadow: 0 0 10px 0 #161c32;
   box-shadow: 0 0 10px 0 #161c32; }
+  .address-info-blocker a, .address-info-blocker a:hover, .address-info-blocker a:active {
+    color: #333333; }
   .address-info-blocker .btn {
     letter-spacing: 1px;
     color: #333333;
