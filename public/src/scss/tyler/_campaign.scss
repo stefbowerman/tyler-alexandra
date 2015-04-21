@@ -32,18 +32,21 @@
   overflow: hidden;
 }
 
-.campaign-view {
+.campaign-views,
+.campaign-view-items,
+.campaign-view-item {
   height: 100%;
+}
+
+.campaign-view {
   border-bottom: 1px solid #DDD;
 }
 
 .campaign-view-items {
-  height: 100%; 
   @extend .clearfix;
 }
 
 .campaign-view-item {
-  height: 100%;
   width: 25%; /* width adjusted via js */
   float: left;
   background-size: cover;

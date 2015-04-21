@@ -1,7 +1,6 @@
 var $ = require('jquery');
 var utils = require('../utils.js');
 var TweenMax = require('tween-max');
-console.log(TweenMax);
 var TimelineLite = require('timeline-lite');
 
 var TylerMap = function(namespaceMapLocation){ // add 'loadScriptOnDomReady' to the passed in args

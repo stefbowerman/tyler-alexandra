@@ -1469,15 +1469,15 @@ input[type="button"].btn-block {
   /* height: 100%; */
   overflow: hidden; }
 
-.campaign-view {
-  height: 100%;
-  border-bottom: 1px solid #DDD; }
-
-.campaign-view-items {
+.campaign-views,
+.campaign-view-items,
+.campaign-view-item {
   height: 100%; }
 
+.campaign-view {
+  border-bottom: 1px solid #DDD; }
+
 .campaign-view-item {
-  height: 100%;
   width: 25%;
   /* width adjusted via js */
   float: left;
